@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useStore } from '../store';
 
-const useGetData = (url: string) => {
+const useGetData = (url) => {
 	const data = useStore((state) => state.mainData);
 	const setData = useStore((state) => state.setMainData);
 
