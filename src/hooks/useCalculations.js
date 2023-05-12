@@ -168,13 +168,10 @@ const useCalculations = () => {
 		return sortedSchools;
 	}
 
-	// Group data by school.
-
+	
 	function processingData(data) {
-		//
-		// Group the data by school
+		// Group data by school.
 		const groupedBySchool = groupingBySchool(data);
-
 		// Group the data by device
 		const groupedByDevice = groupingByDevice(groupedBySchool) || {};
 
