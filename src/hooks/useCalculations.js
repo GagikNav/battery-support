@@ -144,7 +144,7 @@ const useCalculations = () => {
 	}
 
 	// This function takes an object as an argument, loops through it and returns an array of school names sorted by the number of batteries that have usage above 30%.
-	// sort based on usageReport.usage for the devices that contained more items less than .3
+	// Sorting based on usageReport.maxUsage for the devices that contained more items less than .3
 
 	function sortLogic(gd) {
 		let sortedSchools = [];
@@ -167,34 +167,7 @@ const useCalculations = () => {
 		sortedSchools = sortedSchools.map((item) => Object.keys(item)[0]);
 		return sortedSchools;
 	}
-	console.log(
-		sortLogic({
-			school1: {
-				device1: {
-					usageReport: {
-						maxUsage: 0.2,
-					},
-				},
-				device2: {
-					usageReport: {
-						maxUsage: 0.4,
-					},
-				},
-			},
-			school2: {
-				device3: {
-					usageReport: {
-						maxUsage: 0.5,
-					},
-				},
-				device4: {
-					usageReport: {
-						maxUsage: 0.1,
-					},
-				},
-			},
-		})
-	);
+
 	// Group data by school.
 
 	function processingData(data) {

@@ -21,9 +21,6 @@ function BatteryDisplay({ data }) {
 
 	//Using React.useMemo to memoize the devices
 
-	// Get the data grouped by device
-	let groupedByDevice = processedData?.groupedByDevice;
-
 	const devicesData = React.useMemo(() => {
 		// If the data hasn't been processed, return an empty object
 		if (!processedData) return {};
