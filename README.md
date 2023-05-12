@@ -47,5 +47,8 @@ $ npm run dev
 # Run the tests
 $ npm run test
 
+#Format check
+$ npm run format:check
+
 ```
 

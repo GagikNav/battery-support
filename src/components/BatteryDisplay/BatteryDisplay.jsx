@@ -8,7 +8,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
-
 import DangerousIcon from '@mui/icons-material/Dangerous';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 
@@ -31,9 +30,7 @@ function BatteryDisplay({ data }) {
 		let groupedByDevice = processedData?.groupedByDevice;
 		// Initialize an object to hold the usage report
 		let usageReport = createChargingCyclesObject(groupedByDevice, 0);
-		// For each school...
 		for (let school in groupedByDevice) {
-			// For each device in the school...
 			for (let device in groupedByDevice[school]) {
 				// Add the usage report to the groupedByDevice object
 				groupedByDevice[school] = {
@@ -49,7 +46,6 @@ function BatteryDisplay({ data }) {
 	}, [data]);
 
 	// sorts the school data by the school name
-
 	const sortedSchools = React.useMemo(() => {
 		return sortLogic(devicesData);
 	}, [devicesData]);

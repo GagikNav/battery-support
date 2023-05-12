@@ -1,9 +1,5 @@
-import React from 'react';
-
-import BatteryDisplay from '../BatteryDisplay';
-
 import useCalculations from '../../../hooks/useCalculations';
-import { assert, test, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 describe('calculateDailyUsage', () => {
 	it('should return 0 when battery level is the same', () => {

@@ -1,6 +1,4 @@
 import React from 'react';
-import { useState } from 'react';
-import './App.css';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -14,6 +12,7 @@ import BatteryDisplay from './components/BatteryDisplay';
 const baseUrl = 'http://localhost:8000/data'; // will put it in env later
 
 function App() {
+	// initialize api call
 	const getData = useGetData(baseUrl);
 	const data = useStore((state) => state.mainData);
 	return (
