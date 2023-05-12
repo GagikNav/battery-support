@@ -21,6 +21,9 @@ function BatteryDisplay({ data }) {
 
 	//Using React.useMemo to memoize the devices
 
+	// This code uses the processedData object to create an object
+	// that contains a usage report for each device in each school
+
 	const devicesData = React.useMemo(() => {
 		// If the data hasn't been processed, return an empty object
 		if (!processedData) return {};
