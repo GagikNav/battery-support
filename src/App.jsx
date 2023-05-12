@@ -1,6 +1,5 @@
+import React from 'react';
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from './vite.svg';
 import './App.css';
 
 import '@fontsource/roboto/300.css';
@@ -10,7 +9,7 @@ import '@fontsource/roboto/700.css';
 
 import { useStore } from './store';
 import useGetData from './hooks/useGetData';
-import { BatteryDisplay } from './components';
+import BatteryDisplay from './components/BatteryDisplay';
 
 const baseUrl = 'http://localhost:8000/data'; // will put it in env later
 

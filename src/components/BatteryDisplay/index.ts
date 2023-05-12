@@ -1,4 +1,4 @@
-import BatteryDisplayProps from './BatteryDisplayProps';
+import BatteryDisplay from './BatteryDisplay';
 
-export default BatteryDisplayProps;
+export default BatteryDisplay;
 

@@ -5,76 +5,101 @@ import BatteryDisplay from '../BatteryDisplay';
 import useCalculations from '../../../hooks/useCalculations';
 import { assert, test, describe, expect, it } from 'vitest';
 
-describe('useCalculations', () => {
-	it('should group data by school and device', () => {
-		const data = [
-			{ academyId: 1, serialNumber: '123', batteryLevel: 0.2 },
-			{ academyId: 1, serialNumber: '456', batteryLevel: 0.3 },
-			{ academyId: 2, serialNumber: '789', batteryLevel: 0.4 },
+describe('calculateDailyUsage', () => {
+	it('should return 0 when battery level is the same', () => {
+		const cycle = [
+			{ batteryLevel: 0.8, timestamp: '2020-01-01' },
+			{ batteryLevel: 0.8, timestamp: '2020-01-02' },
 		];
-		const expectedResult = {
-			1: {
-				123: [{ academyId: 1, serialNumber: '123', batteryLevel: 0.2 }],
-				456: [{ academyId: 1, serialNumber: '456', batteryLevel: 0.3 }],
+		const { calculateDailyUsage } = useCalculations();
+
+		expect(calculateDailyUsage(cycle)).toEqual(0);
+	});
+	it('should return 1 when battery level decreases by 24 in one day', () => {
+		const cycle = [
+			{ batteryLevel: 0.99, timestamp: '2020-01-01' },
+			{ batteryLevel: 0.6, timestamp: '2020-01-02' },
+		];
+		const { calculateDailyUsage } = useCalculations();
+
+		expect(calculateDailyUsage(cycle)).toBe(0.39);
+	});
+	const gd = {
+		school1: {
+			device1: {
+				usageReport: {
+					maxUsage: 0.2,
+				},
 			},
-			2: {
-				789: [{ academyId: 2, serialNumber: '789', batteryLevel: 0.4 }],
+			device2: {
+				usageReport: {
+					maxUsage: 0.4,
+				},
+			},
+		},
+		school2: {
+			device3: {
+				usageReport: {
+					maxUsage: 0.5,
+				},
+			},
+			device4: {
+				usageReport: {
+					maxUsage: 0.1,
+				},
+			},
+		},
+	};
+});
+
+describe('sortLogic', () => {
+	it('should return an array of schools sorted by the number of devices with a maxUsage above 0.3', () => {
+		const { sortLogic } = useCalculations();
+		const gd = {
+			school1: {
+				device1: {
+					usageReport: {
+						maxUsage: 0.2,
+					},
+				},
+				device2: {
+					usageReport: {
+						maxUsage: 0.4,
+					},
+				},
+			},
+			school2: {
+				device3: {
+					usageReport: {
+						maxUsage: 0.5,
+					},
+				},
+				device4: {
+					usageReport: {
+						maxUsage: 0.4,
+					},
+				},
+			},
+			school3: {
+				device3: {
+					usageReport: {
+						maxUsage: 0.5,
+					},
+				},
+				device2: {
+					usageReport: {
+						maxUsage: 0.5,
+					},
+				},
+				device4: {
+					usageReport: {
+						maxUsage: 0.6,
+					},
+				},
 			},
 		};
-		const { groupDataBySchoolAndDevice } = useCalculations();
-		expect(groupDataBySchoolAndDevice(data)).toEqual(expectedResult);
-	});
-
-	it('should calculate average battery usage', () => {
-		const data = [
-			{ timestamp: '2020-01-01', batteryLevel: 0.2 },
-			{ timestamp: '2020-01-02', batteryLevel: 0.1 },
-		];
-		const expectedResult = {
-			averageUsage: 0.1,
-			sortedReadings: [
-				{ timestamp: '2020-01-01', batteryLevel: 0.2 },
-				{ timestamp: '2020-01-02', batteryLevel: 0.1 },
-			],
-		};
-		const { calculateAverageBatteryUsage } = useCalculations();
-		expect(calculateAverageBatteryUsage(data)).toEqual(expectedResult);
-	});
-
-	it('should sort schools by unhealthy devices', () => {
-		const data = [
-			{ academyId: 1, devices: [{ serialNumber: '123' }, { serialNumber: '456' }] },
-			{ academyId: 2, devices: [{ serialNumber: '789' }] },
-		];
-		const expectedResult = [
-			{ academyId: 1, devices: [{ serialNumber: '123' }, { serialNumber: '456' }] },
-			{ academyId: 2, devices: [{ serialNumber: '789' }] },
-		];
-		const { sortSchoolsByUnhealthyDevices } = useCalculations();
-		expect(sortSchoolsByUnhealthyDevices(data)).toEqual(expectedResult);
-	});
-
-	it('should process battery data', () => {
-		const data = [
-			{ academyId: 1, serialNumber: '123', batteryLevel: 0.2 },
-			{ academyId: 1, serialNumber: '456', batteryLevel: 0.3 },
-			{ academyId: 2, serialNumber: '789', batteryLevel: 0.4 },
-		];
-		const expectedResult = [
-			{
-				academyId: 1,
-				devices: [
-					{ serialNumber: '123', readings: [] },
-					{ serialNumber: '456', readings: [] },
-				],
-			},
-			{
-				academyId: 2,
-				devices: [{ serialNumber: '789', readings: [] }],
-			},
-		];
-		const { processBatteryData } = useCalculations();
-		expect(processBatteryData(data)).toEqual(expectedResult);
+		expect(sortLogic(gd)[0]).toEqual('school3');
+		expect(sortLogic(gd)[1]).toEqual('school2');
 	});
 });
 
