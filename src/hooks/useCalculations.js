@@ -100,7 +100,8 @@ const useCalculations = () => {
 		// in seconds avoiding zero division
 		// disregarding the zero values
 		// avoid division by zero
-		if (timeDelta === 0) {
+		// Simple check for edge cases can be improved in ui to show error message
+		if (timeDelta === 0 || null || undefined || isNaN(timeDelta) || isNaN(usage) || usage === 0) {
 			return 0;
 		}
 		const result = parseFloat(((usage * 24) / Math.ceil(timeDelta / 60 / 60)).toFixed(2));
